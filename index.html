@@ -1014,6 +1014,51 @@
             .min-h-\[800px\] {
                 min-height: auto;
             }
+
+            /* Mobile Hero Fixes */
+            .hero-mobile-fix {
+                min-height: 100svh !important;
+                min-height: 100vh !important;
+            }
+
+            .hero-mobile-fix .hero-bg-img {
+                object-position: center 60% !important;
+            }
+
+            .hero-mobile-fix .hero-overlay {
+                background: linear-gradient(to bottom, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.7) 40%, rgba(0,0,0,0.6) 60%, #111111 100%) !important;
+            }
+
+            .hero-mobile-fix .hero-content {
+                padding-top: 6rem !important;
+                padding-bottom: 2rem !important;
+            }
+
+            .hero-mobile-fix h1 {
+                font-size: 2rem !important;
+                line-height: 1.1 !important;
+                margin-bottom: 1.25rem !important;
+            }
+
+            .hero-mobile-fix .hero-subtitle {
+                font-size: 0.9rem !important;
+                line-height: 1.6 !important;
+                margin-bottom: 1.5rem !important;
+            }
+
+            .hero-mobile-fix .hero-badge {
+                margin-bottom: 1.25rem !important;
+            }
+
+            .hero-mobile-fix .hero-badge span {
+                font-size: 8px !important;
+                letter-spacing: 0.2em !important;
+            }
+
+            .hero-mobile-fix .hero-cta a {
+                padding: 1rem 2rem !important;
+                font-size: 0.875rem !important;
+            }
         }
 
         /* === FOCUS STYLES === */
@@ -1166,19 +1211,19 @@
 
         <main>
             <!-- HERO SECTION -->
-            <section class="relative h-screen flex flex-col justify-center overflow-hidden z-10 w-full"
+            <section class="relative h-screen flex flex-col justify-center overflow-hidden z-10 w-full hero-mobile-fix"
                 style="min-height:700px;">
                 <!-- Hero Background Image overlayed with dark gradient -->
                 <div class="absolute inset-0 z-0">
                     <img src="ig_photo.jpg/hero%20image.png" fetchpriority="high" alt="Cuztom Workz Shop Interior with Custom Cars"
-                        class="w-full h-full object-cover" style="object-position:center 30%; opacity:0.95;">
-                    <div class="absolute inset-0"
+                        class="w-full h-full object-cover hero-bg-img" style="object-position:center 30%; opacity:0.95;">
+                    <div class="absolute inset-0 hero-overlay"
                         style="background: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0.5), #111111);">
                     </div>
                 </div>
 
-                <div class="relative z-10 text-center px-6 max-w-4xl mx-auto pt-20 fade-in-up">
-                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-950/60 border border-red-600/50 shadow-[0_0_15px_rgba(220,38,38,0.3)] backdrop-blur-md mb-8 fade-in-up"
+                <div class="relative z-10 text-center px-6 max-w-4xl mx-auto pt-20 fade-in-up hero-content">
+                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-950/60 border border-red-600/50 shadow-[0_0_15px_rgba(220,38,38,0.3)] backdrop-blur-md mb-8 fade-in-up hero-badge"
                         style="animation-delay: 0.1s">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
                             class="text-red-500" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -1196,12 +1241,12 @@
                         <span style="font-size:0.55em; color:rgba(255,255,255,0.5);">Performance & Customization.</span>
                     </h1>
 
-                    <p class="text-lg md:text-xl text-white/80 max-w-xl mx-auto mb-12 font-light fade-in-up"
+                    <p class="text-lg md:text-xl text-white/80 max-w-xl mx-auto mb-12 font-light fade-in-up hero-subtitle"
                         style="animation-delay: 0.3s">
                         Welcome to Cuztom Workz! Your trusted auto shop in Fresno. From essential engine work and repairs to head-turning vinyl wraps and custom lifting, we bring your vision to life. Get a free, no-pressure quote today!
                     </p>
 
-                    <div class="flex flex-col md:flex-row items-center justify-center gap-4 fade-in-up"
+                    <div class="flex flex-col md:flex-row items-center justify-center gap-4 fade-in-up hero-cta"
                         style="animation-delay: 0.4s">
                         <a href="#contact"
                             class="w-full md:w-auto px-10 py-5 rounded-full bg-red-600 text-white font-bold uppercase tracking-tighter hover:bg-red-500 hover:shadow-[0_0_30px_rgba(220, 38, 38,0.5)] active:scale-95 transition-all duration-200 flex items-center justify-center gap-2 group cursor-pointer inline-flex">
