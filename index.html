@@ -1882,6 +1882,12 @@
                                     <input type="text" id="f-model" placeholder="e.g. Camry, Civic, Mustang"
                                         class="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-4 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all" />
                                 </div>
+                                <div>
+                                    <label
+                                        class="text-xs uppercase tracking-widest text-white/50 font-bold mb-2 block">Description <span style="color:rgba(255,255,255,0.25);">(optional)</span></label>
+                                    <textarea id="f-description" rows="3" placeholder="Tell us what you need — e.g. full wrap in satin black, headlight install, engine swap, etc."
+                                        class="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-red-500 transition-colors resize-none text-sm" style="line-height:1.5;"></textarea>
+                                </div>
                             </div>
 
                             <div class="flex gap-3 mt-8 max-w-md mx-auto">
@@ -2228,6 +2234,7 @@
                 const yearValue = document.querySelector('#f-year').value || '';
                 const makeValue = document.querySelector('#f-make').value || '';
                 const modelValue = document.querySelector('#f-model').value || '';
+                const descValue = document.querySelector('#f-description').value || '';
                 const serviceValue = serviceLabels[selectedService] || selectedService || '';
 
                 // Verify JSON: Ensure the body of the fetch request looks exactly like this
@@ -2238,7 +2245,8 @@
                     "service": serviceValue,
                     "vehicle_year": yearValue,
                     "vehicle_make": makeValue,
-                    "vehicle_model": modelValue
+                    "vehicle_model": modelValue,
+                    "description": descValue
                 };
 
                 // Send using fetch with Content-Type: application/json
