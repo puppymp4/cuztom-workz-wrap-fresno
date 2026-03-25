@@ -1837,13 +1837,43 @@
                                     <div class="col-span-2">
                                         <label
                                             class="text-xs uppercase tracking-widest text-white/50 font-bold mb-2 block">Make</label>
-                                        <div class="relative" id="make-dropdown-wrapper">
-                                            <input type="text" id="f-make-search" placeholder="Type or select make…" autocomplete="off"
-                                                class="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-4 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-red-500 transition-colors cursor-pointer" />
-                                            <input type="hidden" id="f-make" value="" />
-                                            <div id="make-dropdown-list" class="absolute left-0 right-0 top-full mt-1 bg-black/95 border border-white/20 rounded-xl max-h-48 overflow-y-auto z-50 hidden" style="backdrop-filter:none;">
-                                            </div>
-                                        </div>
+                                        <select id="f-make"
+                                            class="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-4 text-white focus:outline-none focus:ring-2 focus:ring-red-500 transition-colors cursor-pointer" style="-webkit-appearance:menulist; appearance:menulist;">
+                                            <option value="" style="background:#111;">Select Make</option>
+                                            <option value="Acura" style="background:#111;">Acura</option>
+                                            <option value="Audi" style="background:#111;">Audi</option>
+                                            <option value="BMW" style="background:#111;">BMW</option>
+                                            <option value="Buick" style="background:#111;">Buick</option>
+                                            <option value="Cadillac" style="background:#111;">Cadillac</option>
+                                            <option value="Chevrolet" style="background:#111;">Chevrolet</option>
+                                            <option value="Chrysler" style="background:#111;">Chrysler</option>
+                                            <option value="Dodge / Ram" style="background:#111;">Dodge / Ram</option>
+                                            <option value="Ford" style="background:#111;">Ford</option>
+                                            <option value="Genesis" style="background:#111;">Genesis</option>
+                                            <option value="GMC" style="background:#111;">GMC</option>
+                                            <option value="Honda" style="background:#111;">Honda</option>
+                                            <option value="Hyundai" style="background:#111;">Hyundai</option>
+                                            <option value="Infiniti" style="background:#111;">Infiniti</option>
+                                            <option value="Jaguar" style="background:#111;">Jaguar</option>
+                                            <option value="Jeep" style="background:#111;">Jeep</option>
+                                            <option value="Kia" style="background:#111;">Kia</option>
+                                            <option value="Land Rover" style="background:#111;">Land Rover</option>
+                                            <option value="Lexus" style="background:#111;">Lexus</option>
+                                            <option value="Lincoln" style="background:#111;">Lincoln</option>
+                                            <option value="Mazda" style="background:#111;">Mazda</option>
+                                            <option value="Mercedes-Benz" style="background:#111;">Mercedes-Benz</option>
+                                            <option value="Mini" style="background:#111;">Mini</option>
+                                            <option value="Mitsubishi" style="background:#111;">Mitsubishi</option>
+                                            <option value="Nissan" style="background:#111;">Nissan</option>
+                                            <option value="Porsche" style="background:#111;">Porsche</option>
+                                            <option value="Ram" style="background:#111;">Ram</option>
+                                            <option value="Subaru" style="background:#111;">Subaru</option>
+                                            <option value="Tesla" style="background:#111;">Tesla</option>
+                                            <option value="Toyota" style="background:#111;">Toyota</option>
+                                            <option value="Volkswagen" style="background:#111;">Volkswagen</option>
+                                            <option value="Volvo" style="background:#111;">Volvo</option>
+                                            <option value="Other" style="background:#111;">Other</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div>
@@ -2238,44 +2268,6 @@
             // Trigger initial fade
             setTimeout(() => window.dispatchEvent(new Event('scroll')), 100);
 
-            // FAST MAKE DROPDOWN
-            const MAKES = ['Acura','Audi','BMW','Buick','Cadillac','Chevrolet','Chrysler','Dodge / Ram','Ford','Genesis','GMC','Honda','Hyundai','Infiniti','Jaguar','Jeep','Kia','Land Rover','Lexus','Lincoln','Mazda','Mercedes-Benz','Mini','Mitsubishi','Nissan','Porsche','Ram','Subaru','Tesla','Toyota','Volkswagen','Volvo','Other'];
-            const makeSearch = document.getElementById('f-make-search');
-            const makeHidden = document.getElementById('f-make');
-            const makeList = document.getElementById('make-dropdown-list');
-
-            function renderMakes(filter) {
-                const f = (filter || '').toLowerCase();
-                const html = MAKES.filter(m => !f || m.toLowerCase().includes(f)).map(m =>
-                    `<div class="px-4 py-3 text-white hover:bg-red-600/40 cursor-pointer transition-colors text-sm" data-val="${m}">${m}</div>`
-                ).join('');
-                makeList.innerHTML = html || '<div class="px-4 py-3 text-white/40 text-sm">No matches</div>';
-            }
-
-            makeSearch.addEventListener('focus', () => {
-                renderMakes(makeSearch.value);
-                makeList.classList.remove('hidden');
-            });
-
-            makeSearch.addEventListener('input', () => {
-                renderMakes(makeSearch.value);
-                makeHidden.value = makeSearch.value;
-            });
-
-            makeList.addEventListener('click', (e) => {
-                const item = e.target.closest('[data-val]');
-                if (item) {
-                    makeSearch.value = item.dataset.val;
-                    makeHidden.value = item.dataset.val;
-                    makeList.classList.add('hidden');
-                }
-            });
-
-            document.addEventListener('click', (e) => {
-                if (!document.getElementById('make-dropdown-wrapper').contains(e.target)) {
-                    makeList.classList.add('hidden');
-                }
-            });
         </script>
 </body>
 
