@@ -1837,36 +1837,13 @@
                                     <div class="col-span-2">
                                         <label
                                             class="text-xs uppercase tracking-widest text-white/50 font-bold mb-2 block">Make</label>
-                                        <select id="f-make"
-                                            class="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-4 text-white focus:outline-none focus:ring-2 focus:ring-red-500 transition-all cursor-pointer">
-                                            <option value="" class="bg-black">Select Make</option>
-                                            <option value="Acura" class="bg-black">Acura</option>
-                                            <option value="Audi" class="bg-black">Audi</option>
-                                            <option value="BMW" class="bg-black">BMW</option>
-                                            <option value="Buick" class="bg-black">Buick</option>
-                                            <option value="Cadillac" class="bg-black">Cadillac</option>
-                                            <option value="Chevrolet" class="bg-black">Chevrolet</option>
-                                            <option value="Chrysler" class="bg-black">Chrysler</option>
-                                            <option value="Dodge / Ram" class="bg-black">Dodge / Ram</option>
-                                            <option value="Ford" class="bg-black">Ford</option>
-                                            <option value="GMC" class="bg-black">GMC</option>
-                                            <option value="Honda" class="bg-black">Honda</option>
-                                            <option value="Hyundai" class="bg-black">Hyundai</option>
-                                            <option value="Infiniti" class="bg-black">Infiniti</option>
-                                            <option value="Jeep" class="bg-black">Jeep</option>
-                                            <option value="Kia" class="bg-black">Kia</option>
-                                            <option value="Lexus" class="bg-black">Lexus</option>
-                                            <option value="Mazda" class="bg-black">Mazda</option>
-                                            <option value="Mercedes-Benz" class="bg-black">Mercedes-Benz</option>
-                                            <option value="Mitsubishi" class="bg-black">Mitsubishi</option>
-                                            <option value="Nissan" class="bg-black">Nissan</option>
-                                            <option value="Porsche" class="bg-black">Porsche</option>
-                                            <option value="Subaru" class="bg-black">Subaru</option>
-                                            <option value="Tesla" class="bg-black">Tesla</option>
-                                            <option value="Toyota" class="bg-black">Toyota</option>
-                                            <option value="Volkswagen" class="bg-black">Volkswagen</option>
-                                            <option value="Other" class="bg-black">Other</option>
-                                        </select>
+                                        <div class="relative" id="make-dropdown-wrapper">
+                                            <input type="text" id="f-make-search" placeholder="Type or select make…" autocomplete="off"
+                                                class="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-4 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-red-500 transition-colors cursor-pointer" />
+                                            <input type="hidden" id="f-make" value="" />
+                                            <div id="make-dropdown-list" class="absolute left-0 right-0 top-full mt-1 bg-black/95 border border-white/20 rounded-xl max-h-48 overflow-y-auto z-50 hidden" style="backdrop-filter:none;">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div>
@@ -2035,22 +2012,23 @@
                 }
             });
 
-            // Animations
-            window.addEventListener('scroll', () => {
-                document.querySelectorAll('.fade-in-up').forEach(el => {
-                    if (el.getBoundingClientRect().top < window.innerHeight - 50) {
-                        el.style.opacity = 1;
-                        el.style.transform = 'translateY(0)';
-                    }
-                });
-            });
-
-            // Setup initial state for animations
-            document.querySelectorAll('.fade-in-up').forEach(el => {
+            // Animations — Use IntersectionObserver instead of scroll loop for better perf
+            const fadeEls = document.querySelectorAll('.fade-in-up');
+            fadeEls.forEach(el => {
                 el.style.opacity = 0;
                 el.style.transform = 'translateY(20px)';
-                el.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
+                el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
             });
+            const fadeObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                        fadeObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            fadeEls.forEach(el => fadeObserver.observe(el));
 
             
 
@@ -2142,7 +2120,7 @@
                 selectedService = btn.dataset.service;
 
                 // Auto-advance to step 2 after a brief visual cue
-                setTimeout(() => goToStep(2), 350);
+                setTimeout(() => goToStep(2), 200);
             }
 
             function goToStep(step) {
@@ -2182,7 +2160,7 @@
                     next.style.transform = 'translateX(0)';
                     currentStep = step;
                     updateProgressBar(step);
-                }, 350);
+                }, 200);
             }
 
             function updateProgressBar(step) {
@@ -2259,6 +2237,45 @@
 
             // Trigger initial fade
             setTimeout(() => window.dispatchEvent(new Event('scroll')), 100);
+
+            // FAST MAKE DROPDOWN
+            const MAKES = ['Acura','Audi','BMW','Buick','Cadillac','Chevrolet','Chrysler','Dodge / Ram','Ford','Genesis','GMC','Honda','Hyundai','Infiniti','Jaguar','Jeep','Kia','Land Rover','Lexus','Lincoln','Mazda','Mercedes-Benz','Mini','Mitsubishi','Nissan','Porsche','Ram','Subaru','Tesla','Toyota','Volkswagen','Volvo','Other'];
+            const makeSearch = document.getElementById('f-make-search');
+            const makeHidden = document.getElementById('f-make');
+            const makeList = document.getElementById('make-dropdown-list');
+
+            function renderMakes(filter) {
+                const f = (filter || '').toLowerCase();
+                const html = MAKES.filter(m => !f || m.toLowerCase().includes(f)).map(m =>
+                    `<div class="px-4 py-3 text-white hover:bg-red-600/40 cursor-pointer transition-colors text-sm" data-val="${m}">${m}</div>`
+                ).join('');
+                makeList.innerHTML = html || '<div class="px-4 py-3 text-white/40 text-sm">No matches</div>';
+            }
+
+            makeSearch.addEventListener('focus', () => {
+                renderMakes(makeSearch.value);
+                makeList.classList.remove('hidden');
+            });
+
+            makeSearch.addEventListener('input', () => {
+                renderMakes(makeSearch.value);
+                makeHidden.value = makeSearch.value;
+            });
+
+            makeList.addEventListener('click', (e) => {
+                const item = e.target.closest('[data-val]');
+                if (item) {
+                    makeSearch.value = item.dataset.val;
+                    makeHidden.value = item.dataset.val;
+                    makeList.classList.add('hidden');
+                }
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!document.getElementById('make-dropdown-wrapper').contains(e.target)) {
+                    makeList.classList.add('hidden');
+                }
+            });
         </script>
 </body>
 
